@@ -5,4 +5,7 @@ require "rubocop/rake_task"
 
 RuboCop::RakeTask.new
 
-task default: :rubocop
+# task default: :rubocop
+task :default do
+  # Default task
+end
