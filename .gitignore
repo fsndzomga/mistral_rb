@@ -6,3 +6,9 @@
 /pkg/
 /spec/reports/
 /tmp/
+
+# Exclude .gem files
+*.gem
+
+# Exclude .gemspec files if not intended for tracking
+*.gemspec
