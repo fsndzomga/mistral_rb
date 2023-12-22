@@ -7,13 +7,13 @@ require_relative "mistral_rb/response_models"
 
 class MistralAPI
   include HTTParty
-  base_uri "https://api.mistral.ai/v1"
 
-  def initialize(api_key)
+  def initialize(api_key, base_uri = "https://api.mistral.ai/v1")
     @headers = {
       "Authorization" => "Bearer #{api_key}",
       "Content-Type" => "application/json"
     }
+    self.class.base_uri base_uri
   end
 
   def create_chat_completion(model, messages, temperature = 0.7, top_p = 1, max_tokens = nil, stream = false, safe_mode = false, random_seed = nil)
