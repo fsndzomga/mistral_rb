@@ -71,3 +71,34 @@ class Model
     @permissions = model_hash["permission"] # This could be further parsed into Permission objects if detailed parsing is required
   end
 end
+
+class StreamedCompletionResponse
+  attr_reader :id, :object, :created, :model, :choices
+
+  def initialize(response_hash)
+    @id = response_hash["id"]
+    @object = response_hash["object"]
+    @created = response_hash["created"]
+    @model = response_hash["model"]
+    @choices = response_hash["choices"].map { |choice| StreamedChoice.new(choice) }
+  end
+end
+
+class StreamedChoice
+  attr_reader :index, :delta, :finish_reason
+
+  def initialize(choice_hash)
+    @index = choice_hash["index"]
+    @delta = Delta.new(choice_hash["delta"]) if choice_hash["delta"]
+    @finish_reason = choice_hash["finish_reason"]
+  end
+end
+
+class Delta
+  attr_reader :role, :content
+
+  def initialize(delta_hash)
+    @role = delta_hash["role"]
+    @content = delta_hash["content"]
+  end
+end

@@ -12,3 +12,5 @@
 
 # Exclude .gemspec files if not intended for tracking
 *.gemspec
+
+examples.rb

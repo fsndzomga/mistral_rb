@@ -41,6 +41,21 @@ model_list_response.data.each do |model|
 end
 ```
 
+Here is how to use streaming:
+
+```ruby
+api = MistralAPI.new("api_key")
+
+api.create_chat_completion(
+  model: 'mistral-tiny',
+  messages: [{ 'role' => 'user', 'content' => 'Who is Barack Obama ?' }],
+  stream: true
+) do |chunk|
+  puts chunk.inspect
+end
+
+```
+
 
 ## Development
 

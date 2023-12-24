@@ -16,7 +16,7 @@ class MistralAPI
     self.class.base_uri base_uri
   end
 
-  def create_chat_completion(model, messages, temperature = 0.7, top_p = 1, max_tokens = nil, stream = false, safe_mode = false, random_seed = nil)
+  def create_chat_completion(model:, messages:, temperature: 0.7, top_p: 1, max_tokens: nil, stream: false, safe_mode: false, random_seed: nil)
     body = {
       model: model,
       messages: messages,
@@ -26,11 +26,20 @@ class MistralAPI
       stream: stream,
       safe_mode: safe_mode,
       random_seed: random_seed
-    }.compact.to_json  # compact to remove nil values
+    }.compact.to_json
 
-    response = self.class.post("/chat/completions", body: body, headers: @headers)
-    parsed_response = handle_response(response)
-    CompletionResponse.new(parsed_response)
+    if stream
+      # Use on_data callback for streaming
+      self.class.post("/chat/completions", body: body, headers: @headers, stream_body: true) do |fragment, _, _|
+        processed_chunk = handle_stream_chunk(fragment)
+        yield(processed_chunk) if block_given? && processed_chunk
+      end
+    else
+      # Handle non-streaming response
+      response = self.class.post("/chat/completions", body: body, headers: @headers)
+      parsed_response = handle_response(response)
+      CompletionResponse.new(parsed_response)
+    end
   end
 
   def create_embeddings(model, input, encoding_format = "float")
@@ -58,6 +67,22 @@ class MistralAPI
       JSON.parse(response.body)
     else
       raise "API Error: #{response.code} - #{response.body}"
+    end
+  end
+
+  def handle_stream_chunk(chunk)
+    # Skip processing if the chunk indicates the end of the stream.
+    return nil if chunk.strip == "data: [DONE]"
+
+    if chunk.strip.start_with?("data:")
+      data_content = chunk.split("data:").last.strip
+      begin
+        # Only parse the JSON content if it's not the end-of-stream indicator
+        json_content = JSON.parse(data_content)
+        StreamedCompletionResponse.new(json_content)
+      rescue JSON::ParserError => e
+        puts "Error parsing JSON: #{e.message}"
+      end
     end
   end
 end
