@@ -44,7 +44,7 @@ end
 Here is how to use streaming:
 
 ```ruby
-api = MistralAPI.new("api_key")
+api = MistralAPI.new(api_key: "api_key")
 
 api.create_chat_completion(
   model: 'mistral-tiny',
