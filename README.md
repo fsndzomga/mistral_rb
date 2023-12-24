@@ -24,15 +24,15 @@ Here is a quick example to get you started:
 require 'mistral_rb'
 
 # Initialize the API with your API key
-mistral = MistralAPI.new("your_api_key_here")
+mistral = MistralAPI.new(api_key: "your_api_key_here")
 
 # Create Chat Completion
-response = mistral.create_chat_completion("mistral-tiny", [{role: "user", content: "Who is Macron?"}])
+response = mistral.create_chat_completion(model: "mistral-tiny", messages: [{role: "user", content: "Who is Macron?"}])
 puts response.choices.to_s
 
 # Create Embeddings
-embedding_response = mistral.create_embeddings("mistral-embed", ["Hello", "world"])
-puts embedding_response.data.first.embedding
+embedding_response = mistral.create_embeddings(model: "mistral-embed", input: ["Hello", "world"])
+puts embedding_response.data.first.inspect
 
 # List Available Models
 model_list_response = mistral.list_available_models

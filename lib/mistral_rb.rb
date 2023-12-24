@@ -8,7 +8,7 @@ require_relative "mistral_rb/response_models"
 class MistralAPI
   include HTTParty
 
-  def initialize(api_key, base_uri = "https://api.mistral.ai/v1")
+  def initialize(api_key:, base_uri: "https://api.mistral.ai/v1")
     @headers = {
       "Authorization" => "Bearer #{api_key}",
       "Content-Type" => "application/json"
@@ -42,7 +42,7 @@ class MistralAPI
     end
   end
 
-  def create_embeddings(model, input, encoding_format = "float")
+  def create_embeddings(model:, input:, encoding_format: "float")
     body = {
       model: model,
       input: input,
