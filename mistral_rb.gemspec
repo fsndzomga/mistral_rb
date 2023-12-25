@@ -31,10 +31,21 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   # Specify runtime and development dependencies in gemspec
-  spec.add_runtime_dependency "httparty", "~> 0.18"
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 13.0"
 
+  spec.add_runtime_dependency "httparty", "~> 0.18"
+  spec.add_runtime_dependency "mime-types"
+  spec.add_runtime_dependency "pdf-reader"
+  spec.add_runtime_dependency "pinecone"
+  spec.add_runtime_dependency "docx"
+  spec.add_runtime_dependency "dotenv-rails"
+  # spec.add_runtime_dependency "csv"
+  # spec.add_runtime_dependency "daru"
+  spec.add_runtime_dependency "nokogiri"
+  spec.add_runtime_dependency 'selenium-webdriver', '~> 4.5'
+  spec.add_runtime_dependency 'webdrivers', '~> 5.3'
+  spec.add_runtime_dependency 'watir'
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
 end
