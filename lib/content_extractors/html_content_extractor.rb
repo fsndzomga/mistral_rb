@@ -6,6 +6,8 @@ require_relative '../utils/sanitizer.rb'
 class HtmlContentExtractor
   attr_reader :content
 
+  WORDS_PER_PAGE = 500
+
   class ExtractionError < StandardError; end
   class UrlDownloadError < ExtractionError; end
   class ParsingError < ExtractionError; end
@@ -34,6 +36,8 @@ class HtmlContentExtractor
 
         combined_content = "#{title}\n\n#{text_content}"
         @content = sanitize_content(combined_content)
+        pages = split_into_pages(@content)
+        [pages, @content]
         return
       rescue UrlDownloadError => e
         next
@@ -67,5 +71,14 @@ class HtmlContentExtractor
     sanitized_text = Sanitizer.remove_excessive_spaces(sanitized_text)
     sanitized_text = Sanitizer.remove_bullet_points(sanitized_text)
     sanitized_text
+  end
+
+  def split_into_pages(content)
+    words = content.split(/\s+/)
+    pages = []
+    words.each_slice(WORDS_PER_PAGE) do |page_words|
+      pages << page_words.join(' ')
+    end
+    pages
   end
 end

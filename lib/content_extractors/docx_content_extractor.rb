@@ -44,7 +44,7 @@ class DocxContentExtractor
       pages = split_into_pages(content)
       @page_count = pages.size
 
-      pages
+      [pages, content]
     end
   end
 

@@ -47,7 +47,7 @@ class PdfContentExtractor
 
         raise EmptyContentError, 'The PDF content is empty or unreadable.' if pages.all? { |page| page.nil? || page.strip.empty? }
 
-        pages
+        [pages, content]
       ensure
         tempfile.unlink # Delete the tempfile
       end

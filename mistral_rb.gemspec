@@ -46,6 +46,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'selenium-webdriver', '~> 4.5'
   spec.add_runtime_dependency 'webdrivers', '~> 5.3'
   spec.add_runtime_dependency 'watir'
+  spec.add_runtime_dependency 'ruby-openai'
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
 end

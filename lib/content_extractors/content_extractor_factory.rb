@@ -1,5 +1,9 @@
 require "mime/types"
 require "httparty"
+require_relative './docx_content_extractor.rb'
+require_relative './html_content_extractor.rb'
+require_relative './pdf_content_extractor.rb'
+require_relative './text_content_extractor.rb'
 
 class ContentExtractorFactory
   def self.for(file)
