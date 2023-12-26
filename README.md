@@ -56,6 +56,21 @@ end
 
 ```
 
+It is now possible add RAG (Retrieval Augmented Generation) in your apps, with only 6 lines of code:
+
+```ruby
+
+vector_store = PineconeService.new(index_name: 'your_index_name')
+llm = MistralAPI.new
+file = "https://www.ycombinator.com/deal"
+embedding_creator = MistralEmbeddingCreator.new
+
+responder = Responder.new(vector_store: vector_store,llm: llm,file: file, embedding_creator: embedding_creator)
+
+puts responder.call("How much does YC invest per startup ?")
+
+```
+
 
 ## Development
 

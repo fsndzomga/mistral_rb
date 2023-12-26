@@ -4,11 +4,14 @@ require_relative "mistral_rb/version"
 require "httparty"
 require "json"
 require_relative "mistral_rb/response_models"
+require 'dotenv'
+
+Dotenv.load()
 
 class MistralAPI
   include HTTParty
 
-  def initialize(api_key:, base_uri: "https://api.mistral.ai/v1")
+  def initialize(api_key: ENV["MISTRAL_API_KEY"], base_uri: "https://api.mistral.ai/v1")
     @headers = {
       "Authorization" => "Bearer #{api_key}",
       "Content-Type" => "application/json"

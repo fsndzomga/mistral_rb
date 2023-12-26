@@ -5,10 +5,12 @@ require 'dotenv'
 Dotenv.load()
 
 class PineconeService
+  attr_reader :index
   def initialize(pinecone_key: ENV['PINECONE_API_KEY'], pinecone_env: ENV['PINECONE_ENV'], index_name:)
     @pinecone_key = pinecone_key
     @pinecone_env = pinecone_env
     @index_name = index_name
+
 
     Pinecone.configure do |config|
       config.api_key  = @pinecone_key
@@ -20,6 +22,7 @@ class PineconeService
     else
       Rails.logger.error "Set the PINECONE_API_KEY and PINECONE_ENV in the ENV variables"
     end
+    @index = @pinecone.index(@index_name)
   end
 
   def compute_hash(text)
@@ -28,21 +31,17 @@ class PineconeService
 
   def store(embeddings, text)
     namespace = compute_hash(text)
-    index = @pinecone.index(@index_name)
 
-    upsert_with_retry(index, namespace, embeddings)
+    upsert_with_retry(@index, namespace, embeddings)
 
     namespace
-  end
-
-  def recall()
-    @pinecone.index(@index_name)
   end
 
   private
 
   def upsert_with_retry(index, namespace, embeddings, max_retries = 5, retry_delay = 10)
     retries = 0
+    response = nil
 
     loop do
       response = index.upsert(

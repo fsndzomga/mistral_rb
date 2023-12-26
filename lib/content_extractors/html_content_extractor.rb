@@ -37,8 +37,7 @@ class HtmlContentExtractor
         combined_content = "#{title}\n\n#{text_content}"
         @content = sanitize_content(combined_content)
         pages = split_into_pages(@content)
-        [pages, @content]
-        return
+        return [pages, @content]
       rescue UrlDownloadError => e
         next
       end
