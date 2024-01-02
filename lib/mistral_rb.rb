@@ -41,7 +41,7 @@ class MistralAPI
       # Handle non-streaming response
       response = self.class.post("/chat/completions", body: body, headers: @headers)
       parsed_response = handle_response(response)
-      CompletionResponse.new(parsed_response)
+      MistralModels::CompletionResponse.new(parsed_response)
     end
   end
 
@@ -54,13 +54,13 @@ class MistralAPI
 
     response = self.class.post("/embeddings", body: body, headers: @headers)
     parsed_response = handle_response(response)
-    EmbeddingResponse.new(parsed_response)
+    MistralModels::EmbeddingResponse.new(parsed_response)
   end
 
   def list_available_models
     response = self.class.get("/models", headers: @headers)
     parsed_response = handle_response(response)
-    ModelListResponse.new(parsed_response)
+    MistralModels::ModelListResponse.new(parsed_response)
   end
 
   private
@@ -82,7 +82,7 @@ class MistralAPI
       begin
         # Only parse the JSON content if it's not the end-of-stream indicator
         json_content = JSON.parse(data_content)
-        StreamedCompletionResponse.new(json_content)
+        MistralModels::StreamedCompletionResponse.new(json_content)
       rescue JSON::ParserError => e
         puts "Error parsing JSON: #{e.message}"
       end
