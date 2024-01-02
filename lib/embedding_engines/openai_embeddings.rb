@@ -9,6 +9,7 @@ class OpenaiEmbeddingCreator
     @chunker = chunker
     @model = model
     @api_key = api_key || ENV['OPENAI_API_KEY']
+    raise 'API key not found. Please set the OPENAI_API_KEY environment variable.' if api_key.nil? || api_key.empty?
 
     if @api_key
       @llm = OpenAI::Client.new(access_token: @api_key)

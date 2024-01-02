@@ -9,6 +9,7 @@ class MistralEmbeddingCreator
     @chunker = chunker
     @model = model
     @api_key = api_key || ENV['MISTRAL_API_KEY']
+    raise 'API key not found. Please set the MISTRAL_API_KEY environment variable.' if api_key.nil? || api_key.empty?
 
     if @api_key
       @llm = MistralAPI.new(api_key: @api_key)

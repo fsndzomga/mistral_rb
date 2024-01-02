@@ -7,6 +7,8 @@ Dotenv.load()
 class PineconeService
   attr_reader :index
   def initialize(pinecone_key: ENV['PINECONE_API_KEY'], pinecone_env: ENV['PINECONE_ENV'], index_name:)
+    raise 'API key not found. Please set the PINECONE_API_KEY environment variable.' if pinecone_key.nil? || pinecone_key.empty?
+    raise 'ENV not found. Please set the PINECONE_ENV environment variable.' if pinecone_env.nil? || pinecone_env.empty?
     @pinecone_key = pinecone_key
     @pinecone_env = pinecone_env
     @index_name = index_name
