@@ -42,7 +42,7 @@ class TxtContentExtractor
       pages = split_into_pages(sanitized_content)
       @page_count = pages.size
 
-      pages
+      [pages, content]
     end
   end
 
