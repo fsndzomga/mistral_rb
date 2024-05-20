@@ -10,6 +10,7 @@ Dotenv.load()
 
 class MistralAPI
   include HTTParty
+  debug_output $stdout
 
   def initialize(api_key: ENV["MISTRAL_API_KEY"], base_uri: "https://api.mistral.ai/v1")
     raise 'API key not found. Please set the MISTRAL_API_KEY environment variable.' if api_key.nil? || api_key.empty?
@@ -20,7 +21,7 @@ class MistralAPI
     self.class.base_uri base_uri
   end
 
-  def create_chat_completion(model:, messages:, temperature: 0.7, top_p: 1, max_tokens: nil, stream: false, safe_prompt: false, random_seed: nil)
+  def create_chat_completion(model:, messages:, temperature: 0.7, top_p: 1, max_tokens: nil, stream: false, safe_prompt: false, random_seed: nil, tools: nil, tool_choice: nil)
     body = {
       model: model,
       messages: messages,
@@ -29,7 +30,9 @@ class MistralAPI
       max_tokens: max_tokens,
       stream: stream,
       safe_prompt: safe_prompt,
-      random_seed: random_seed
+      random_seed: random_seed,
+      tools: tools,
+      tool_choice: tool_choice
     }.compact.to_json
 
     if stream
@@ -42,6 +45,7 @@ class MistralAPI
       # Handle non-streaming response
       response = self.class.post("/chat/completions", body: body, headers: @headers)
       parsed_response = handle_response(response)
+      Rails.logger.info parsed_response
       MistralModels::CompletionResponse.new(parsed_response)
     end
   end
