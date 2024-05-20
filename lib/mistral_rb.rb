@@ -44,7 +44,6 @@ class MistralAPI
       # Handle non-streaming response
       response = self.class.post("/chat/completions", body: body, headers: @headers)
       parsed_response = handle_response(response)
-      Rails.logger.info parsed_response
       MistralModels::CompletionResponse.new(parsed_response)
     end
   end
