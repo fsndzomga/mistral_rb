@@ -10,7 +10,6 @@ Dotenv.load()
 
 class MistralAPI
   include HTTParty
-  debug_output $stdout
 
   def initialize(api_key: ENV["MISTRAL_API_KEY"], base_uri: "https://api.mistral.ai/v1")
     raise 'API key not found. Please set the MISTRAL_API_KEY environment variable.' if api_key.nil? || api_key.empty?
