@@ -20,7 +20,7 @@ class MistralAPI
     self.class.base_uri base_uri
   end
 
-  def create_chat_completion(model:, messages:, temperature: 0.7, top_p: 1, max_tokens: nil, stream: false, safe_prompt: false, random_seed: nil)
+  def create_chat_completion(model:, messages:, temperature: 0.7, top_p: 1, max_tokens: nil, stream: false, safe_prompt: false, random_seed: nil, tools: nil, tool_choice: nil)
     body = {
       model: model,
       messages: messages,
@@ -29,7 +29,9 @@ class MistralAPI
       max_tokens: max_tokens,
       stream: stream,
       safe_prompt: safe_prompt,
-      random_seed: random_seed
+      random_seed: random_seed,
+      tools: tools,
+      tool_choice: tool_choice
     }.compact.to_json
 
     if stream
