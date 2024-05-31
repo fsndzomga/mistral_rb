@@ -1,5 +1,8 @@
 # MistralRb
 
+![Total Downloads](https://img.shields.io/gem/dt/mistral_rb.svg)
+
+
 Welcome to MistralRb, a Ruby gem providing an easy-to-use interface for the Mistral AI API. This gem allows you to interact with the Mistral API to create chat completions, embeddings, and list available models in a Ruby-friendly way.
 
 ## Installation

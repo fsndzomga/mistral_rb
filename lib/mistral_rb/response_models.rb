@@ -22,11 +22,26 @@ module MistralModels
   end
 
   class Message
-    attr_reader :role, :content
+    attr_reader :role, :content, :tool_calls
 
     def initialize(message_hash)
       @role = message_hash["role"]
       @content = message_hash["content"]
+      @tool_calls = message_hash["tool_calls"]
+    end
+    
+    def to_h
+      res = {
+        role: @role,
+        content: @content,
+      }
+      res[:tool_calls] = @tool_calls if @tool_calls
+      
+      if Hash.new.respond_to?(:with_indifferent_access)
+        res.with_indifferent_access
+      else
+        res
+      end
     end
   end
 
