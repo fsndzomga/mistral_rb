@@ -32,6 +32,9 @@ class MistralAPI
       random_seed: random_seed
     }.compact.to_json
 
+    # Debugging: print the request body
+    puts "Request Body: #{body}"
+
     if stream
       # Use on_data callback for streaming
       self.class.post("/chat/completions", body: body, headers: @headers, stream_body: true) do |fragment, _, _|
